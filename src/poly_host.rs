@@ -63,13 +63,13 @@ impl PolyHost {
 							}
 						}
 					} else if event.bytes[0] & 0xf0 == 0xb0 && event.bytes[1] == 64 {
-						if event.bytes[2] == 127 {
+						if event.bytes[2] == 0 {
 							self.sustain_flag = false;
 							for mut synth in std::mem::take(&mut self.sustain).into_iter() {
 								synth.set_end(event.time as usize);
 								self.release.push(synth);
 							}
-						} else if event.bytes[2] == 0 {
+						} else {
 							self.sustain_flag = true;
 						}
 					} else {
